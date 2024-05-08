@@ -1,17 +1,14 @@
-function sortedListToBST(head) {
-  if (!head) return null;
-  if (!head.next) return new TreeNode(head.val);
-  let slow = head;
-  let fast = head;
-  let prev = null;
-  while (fast && fast.next) {
-    prev = slow;
-    slow = slow.next;
-    fast = fast.next.next;
+function wordBreak(s, wordDict) {
+  const wordSet = new Set(wordDict);
+  const dp = new Array(s.length + 1).fill(false);
+  dp[0] = true;
+  for (let end = 1; end <= s.length; end++) {
+    for (let start = 0; start < end; start++) {
+      if (dp[start] && wordSet.has(s.substring(start, end))) {
+        dp[end] = true;
+        break;
+      }
+    }
   }
-  const root = new TreeNode(slow.val);
-  prev.next = null;
-  root.left = sortedListToBST(head);
-  root.right = sortedListToBST(slow.next);
-  return root;
+  return dp[s.length];
 }
